@@ -7,7 +7,7 @@
     typst
     tinymist
     # For PDF compression/optimization
-    qpdf
+    #qpdf
   ];
 
   languages.python = {
@@ -29,6 +29,7 @@
 
   scripts.watch.exec = ''
     echo "Watching for changes..."
+    mkdir -p output
     typst watch --font-path ./fonts src/main.typ output/travel-checklist.pdf
   '';
 
@@ -39,13 +40,13 @@
 
   enterShell = ''
     mkdir -p output
-    echo "🧳 Travel Checklist Typst Environment"
-    echo ""
+    echo "Travel Checklist Typst Environment"
+    echo
     echo "Available commands:"
     echo "  build   - Compile PDF once"
     echo "  watch   - Auto-rebuild on file changes"
     echo "  clean   - Remove build artifacts"
-    echo ""
+    echo
   '';
 
 }
