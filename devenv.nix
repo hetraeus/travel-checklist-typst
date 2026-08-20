@@ -10,11 +10,21 @@
     qpdf
   ];
 
+  languages.python = {
+    enable = true;
+    uv = {
+      enable = true;
+      sync.enable = true;
+    };
+  };
+
   # https://devenv.sh/scripts/
   scripts.build.exec = ''
     echo "Building travel checklist PDF..."
+    mkdir -p output
     typst compile --font-path ./fonts src/main.typ output/travel-checklist.pdf
-    echo "Done: output/travel-checklist.pdf"
+    uv run python fill_pdf.py src/main.typ output/travel-checklist.pdf output/travel-checklist-fillable.pdf
+    echo "Done: output/travel-checklist.pdf (static) and output/travel-checklist-fillable.pdf (interactive)"
   '';
 
   scripts.watch.exec = ''
