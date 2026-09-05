@@ -99,6 +99,7 @@
       #check_item("Swimwear (if needed)", "cloth_swim")
       #check_item("Light jacket / layers", "cloth_jacket")
       #check_item("Hat / sunglasses", "cloth_hat")
+      #check_item("Bags for dirty clothes", "dirty_clothes")
     ]
   ],
   [
