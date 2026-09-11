@@ -21,8 +21,7 @@ watch
 
 == Screenshot
 
-.Travel checklist screenshot
-image::docs/screenshots/screenshot-2026-09-11.png[Travel checklist screenshot]
+image::docs/screenshots/screenshot-2026-09-11.png[Travel checklist screenshot,width=400]
 
 == Requirements
 
