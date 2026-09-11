@@ -1,3 +1,33 @@
+// main.typ
+// Imports the translations and uses the language from the command line.
+
+#import "translations.typ": translations
+
+// Determine language (default to English if not provided)
+#let lang = sys.inputs.at("lang", default: "en")
+
+// Helper to get the current translation for a key
+#let t(key) = {
+  translations.at(lang).at(key)
+}
+
+// ----------------------------------------------------------------------
+// Page and text settings (unchanged)
+#set page(
+  paper: "a4",
+  margin: (x: 1.8cm, y: 1.5cm),
+  numbering: none,
+)
+
+#set text(
+  font: "Libertinus Serif",
+  size: 10.5pt,
+  lang: "en",  // keep it as "en" – the UI strings are already translated
+)
+
+// ----------------------------------------------------------------------
+// Helper functions (identical to original)
+
 #let capture_field(field_name: "", field_type: "text", content) = {
   box({
     context {
@@ -13,18 +43,6 @@
     content
   })
 }
-
-#set page(
-  paper: "a4",
-  margin: (x: 1.8cm, y: 1.5cm),
-  numbering: none,
-)
-
-#set text(
-  font: "Libertinus Serif",
-  size: 10.5pt,
-  lang: "en",
-)
 
 #let check_item(name, id) = [
   #capture_field(
@@ -49,106 +67,109 @@
   ]
 ]
 
+// ----------------------------------------------------------------------
+// Document content – all strings are replaced with #t(...)
+
 #align(center)[
-  #text(size: 24pt, weight: "bold")[✈️ Travel Checklist]
+  #text(size: 24pt, weight: "bold")[#t("title")]
   #v(4pt)
-  #text(size: 10pt, fill: rgb("666666"))[
-    Check off items as you pack.
-  ]
+  #text(size: 10pt, fill: rgb("666666"))[#t("subtitle")]
 ]
 
 #v(12pt)
 
+// Two‑column layout
 #grid(
   columns: (1fr, 1fr),
   gutter: 24pt,
   [
-    #category("Documents")[
-      #check_item("Passport / ID", "doc_passport")
-      #check_item("Visa (if required)", "doc_visa")
-      #check_item("Boarding passes", "doc_boarding")
-      #check_item("Travel insurance", "doc_insurance")
-      #check_item("Hotel confirmations", "doc_hotel")
-      #check_item("Emergency contacts", "doc_emergency")
-      #check_item("Copies of documents", "doc_copies")
+    #category(t("categories").documents)[
+      #check_item(t("items").doc_passport, "doc_passport")
+      #check_item(t("items").doc_visa, "doc_visa")
+      #check_item(t("items").doc_boarding, "doc_boarding")
+      #check_item(t("items").doc_insurance, "doc_insurance")
+      #check_item(t("items").doc_hotel, "doc_hotel")
+      #check_item(t("items").doc_emergency, "doc_emergency")
+      #check_item(t("items").doc_copies, "doc_copies")
     ]
 
-    #category("Money")[
-      #check_item("Wallet / Cards", "money_wallet")
-      #check_item("Local currency / Cash", "money_cash")
-      #check_item("Notify bank of travel", "money_bank")
-      #check_item("Travel credit card", "money_card")
+    #category(t("categories").money)[
+      #check_item(t("items").money_wallet, "money_wallet")
+      #check_item(t("items").money_cash, "money_cash")
+      #check_item(t("items").money_bank, "money_bank")
+      #check_item(t("items").money_card, "money_card")
     ]
 
-    #category("Electronics")[
-      #check_item("Phone + charger", "elec_phone")
-      #check_item("Power adapter", "elec_adapter")
-      #check_item("Power bank", "elec_powerbank")
-      #check_item("Headphones", "elec_headphones")
-      #check_item("Laptop / tablet", "elec_laptop")
-      #check_item("E-reader", "elec_ereader")
-      #check_item("Camera + memory cards", "elec_camera")
+    #category(t("categories").electronics)[
+      #check_item(t("items").elec_phone, "elec_phone")
+      #check_item(t("items").elec_adapter, "elec_adapter")
+      #check_item(t("items").elec_powerbank, "elec_powerbank")
+      #check_item(t("items").elec_headphones, "elec_headphones")
+      #check_item(t("items").elec_laptop, "elec_laptop")
+      #check_item(t("items").elec_ereader, "elec_ereader")
+      #check_item(t("items").elec_camera, "elec_camera")
     ]
 
-    #category("Clothing")[
-      #check_item("Weather-appropriate outfits", "cloth_outfits")
-      #check_item("Comfortable walking shoes", "cloth_shoes")
-      #check_item("Bandaids for ankles", "bandaids_rolls")
-      #check_item("Sleepwear", "cloth_sleep")
-      #check_item("Underwear / socks", "cloth_under")
-      #check_item("Swimwear (if needed)", "cloth_swim")
-      #check_item("Light jacket / layers", "cloth_jacket")
-      #check_item("Hat / sunglasses", "cloth_hat")
-      #check_item("Bags for dirty clothes", "dirty_clothes")
+    #category(t("categories").clothing)[
+      #check_item(t("items").cloth_outfits, "cloth_outfits")
+      #check_item(t("items").cloth_shoes, "cloth_shoes")
+      #check_item(t("items").bandaids_rolls, "bandaids_rolls")
+      #check_item(t("items").cloth_sleep, "cloth_sleep")
+      #check_item(t("items").cloth_under, "cloth_under")
+      #check_item(t("items").cloth_swim, "cloth_swim")
+      #check_item(t("items").cloth_jacket, "cloth_jacket")
+      #check_item(t("items").cloth_hat, "cloth_hat")
+      #check_item(t("items").dirty_clothes, "dirty_clothes")
     ]
   ],
   [
-    #category("Toiletries")[
-      #check_item("Toothbrush / toothpaste", "tooth_brush")
-      #check_item("Deodorant", "tooth_deo")
-      #check_item("Shampoo / conditioner", "tooth_shampoo")
-      #check_item("Skincare", "tooth_skin")
-      #check_item("Sunscreen", "tooth_sun")
-      #check_item("Personal medications", "tooth_meds")
-      #check_item("First aid kit", "tooth_firstaid")
-      #check_item("Razor / grooming", "tooth_razor")
+    #category(t("categories").toiletries)[
+      #check_item(t("items").tooth_brush, "tooth_brush")
+      #check_item(t("items").tooth_deo, "tooth_deo")
+      #check_item(t("items").tooth_shampoo, "tooth_shampoo")
+      #check_item(t("items").tooth_skin, "tooth_skin")
+      #check_item(t("items").tooth_sun, "tooth_sun")
+      #check_item(t("items").tooth_meds, "tooth_meds")
+      #check_item(t("items").tooth_firstaid, "tooth_firstaid")
+      #check_item(t("items").tooth_razor, "tooth_razor")
     ]
 
-    #category("Carry-On Essentials")[
-      #check_item("Water bottle (empty)", "carry_water")
-      #check_item("Snacks", "carry_snacks")
-      #check_item("Neck pillow / eye mask", "carry_pillow")
-      #check_item("Entertainment", "carry_entertain")
-      #check_item("Pen (customs forms)", "carry_pen")
-      #check_item("Tissues / wet wipes", "carry_wipes")
-      #check_item("Change of clothes", "carry_change")
+    #category(t("categories").carryon)[
+      #check_item(t("items").carry_water, "carry_water")
+      #check_item(t("items").carry_snacks, "carry_snacks")
+      #check_item(t("items").carry_pillow, "carry_pillow")
+      #check_item(t("items").carry_entertain, "carry_entertain")
+      #check_item(t("items").carry_pen, "carry_pen")
+      #check_item(t("items").carry_wipes, "carry_wipes")
+      #check_item(t("items").carry_change, "carry_change")
     ]
 
-    #category("Before Leaving")[
-      #check_item("Lock doors / windows", "leave_lock")
-      #check_item("Unplug appliances", "leave_unplug")
-      #check_item("Set thermostat", "leave_thermo")
-      #check_item("Hold mail / deliveries", "leave_mail")
-      #check_item("Water plants", "leave_plants")
-      #check_item("Set out-of-office email", "leave_ooo")
-      #check_item("Charge all devices", "leave_charge")
+    #category(t("categories").before)[
+      #check_item(t("items").leave_lock, "leave_lock")
+      #check_item(t("items").leave_unplug, "leave_unplug")
+      #check_item(t("items").leave_thermo, "leave_thermo")
+      #check_item(t("items").leave_mail, "leave_mail")
+      #check_item(t("items").leave_plants, "leave_plants")
+      #check_item(t("items").leave_ooo, "leave_ooo")
+      #check_item(t("items").leave_charge, "leave_charge")
     ]
   ]
 )
 
-#category("Camping")[
-  #check_item("Tent / tarp / hammock", "camp_tent")
-  #check_item("Sleeping bag + pad", "camp_sleep")
-  #check_item("Camping stove + fuel", "camp_stove")
-  #check_item("Cookware + utensils", "camp_cook")
-  #check_item("Headlamp / flashlight + batteries", "camp_light")
-  #check_item("Multi-tool / knife", "camp_tool")
-  #check_item("Extension cord", "camp_cord")
-  #check_item("Portable charger / power station", "camp_power")
-  #check_item("Insect repellent", "camp_bug")
-  #check_item("Fire starter / matches (waterproof)", "camp_fire")
-  #check_item("Rope / paracord", "camp_rope")
-  #check_item("Trash bags (pack it out)", "camp_trash")
+// Single category spanning the full width
+#category(t("categories").camping)[
+  #check_item(t("items").camp_tent, "camp_tent")
+  #check_item(t("items").camp_sleep, "camp_sleep")
+  #check_item(t("items").camp_stove, "camp_stove")
+  #check_item(t("items").camp_cook, "camp_cook")
+  #check_item(t("items").camp_light, "camp_light")
+  #check_item(t("items").camp_tool, "camp_tool")
+  #check_item(t("items").camp_cord, "camp_cord")
+  #check_item(t("items").camp_power, "camp_power")
+  #check_item(t("items").camp_bug, "camp_bug")
+  #check_item(t("items").camp_fire, "camp_fire")
+  #check_item(t("items").camp_rope, "camp_rope")
+  #check_item(t("items").camp_trash, "camp_trash")
 ]
 
 #v(1fr)
